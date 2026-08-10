@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Line Water Ways - Professional Toggle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+        .ticket-font { font-family: 'Roboto', sans-serif; letter-spacing: 0.2px; }
+        @media print {
+            @page { size: A4 portrait; margin: 0mm; }
+            body * { visibility: hidden; }
+            #printable-ticket, #printable-ticket * { visibility: visible; }
+            #printable-ticket {
+                position: absolute; left: 50%; top: 5mm; transform: translateX(-50%);
+                width: 100% !important; height: 500px !important;
+                background-color: white !important;
+                -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+            }
+            #printable-ticket:not(.show-bg-print) { background: none !important; background-image: none !important; }
+            #printable-ticket.show-bg-print {
+                background-image: url('greenlinebg(2).png') !important;
+                background-repeat: no-repeat !important; background-size: cover !important;
+                background-position: -200px center !important;
+            }
+            .no-print { display: none !important; }
+        }
+        .toggle-switch { position: relative; display: inline-block; width: 56px; height: 28px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: 0.3s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        input:checked + .slider { background-color: #059669; }
+        input:checked + .slider:before { transform: translateX(28px); }
+        .toggle-label { font-size: 0.875rem; font-weight: 500; user-select: none; }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans antialiased pb-12">
+
+    <iframe name="hiddenFrame" style="display:none;"></iframe>
+
+    <div class="max-w-4xl mx-auto p-6 mt-8 bg-white rounded-xl shadow-lg no-print">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-3 flex items-center justify-between">
+            <span>গ্রিন লাইন টিকিট ডাটা ইনপুট প্যানেল</span>
+            <span class="text-xs text-emerald-600 font-semibold">KK 6 & REF Separated</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Passenger Name</label><input type="text" id="input-name" value="ALIF" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold uppercase"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Mobile No</label><input type="text" id="input-mobile" value="01912318448" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">PNR No</label><input type="text" id="input-pnr" value="23385" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Coach No</label><input type="text" id="input-coach" value="001-Dek-1" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Passport No</label><input type="text" id="input-passport" value="" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div class="grid grid-cols-2 gap-2">
+                <div><label class="block text-xs font-bold text-gray-600 uppercase">Code</label><input type="text" id="input-kk" value="KK 6" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold uppercase"></div>
+                <div><label class="block text-xs font-bold text-gray-600 uppercase">REF Code</label><input type="text" id="input-ref" value="REF: 00" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            </div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">From</label><input type="text" id="input-from" value="Dhaka" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">To</label><input type="text" id="input-to" value="Barisal" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Issue Date</label><input type="date" id="input-issue-date" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Journey Date</label><input type="date" id="input-journey-date" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Reporting Time</label><input type="time" id="input-reporting-time" value="07:45" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Departure Time</label><input type="time" id="input-dep-time" value="08:00" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Seat No</label><input type="text" id="input-seat" value="N18" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Departure Place</label><input type="text" id="input-dep-place" value="Sodor Ghat" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Ticket Price (Tk)</label><input type="text" id="input-price" value="700" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm font-bold"></div>
+            <div><label class="block text-xs font-bold text-gray-600 uppercase">Page Number</label><input type="number" id="input-page-number" value="3" min="1" class="mt-1 block w-full rounded border-gray-300 shadow-sm border p-2 text-sm"></div>
+        </div>
+        <div class="mt-6 flex justify-end items-center gap-6">
+            <div class="flex items-center gap-2 no-print">
+                <span class="toggle-label text-gray-700">প্রিন্টে ব্যাকগ্রাউন্ড:</span>
+                <label class="toggle-switch"><input type="checkbox" id="toggle-print-bg"><span class="slider"></span></label>
+                <span id="toggle-status" class="toggle-label text-gray-500 font-medium">OFF</span>
+            </div>
+            <button id="print-button" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-md transition duration-200 flex items-center gap-2">🖨️ নিখুঁত প্রিন্ট করুন</button>
+        </div>
+    </div>
+
+    <div class="flex justify-center mt-8">
+        <div id="printable-ticket" class="relative bg-white w-[1200px] h-[500px] ticket-font select-none text-[13px]" style="background-image: url('greenlinebg(2).png'); background-repeat: no-repeat; background-size: cover; background-position: -200px center;">
+            <div class="absolute top-[0px] left-0 right-0 text-center">
+                <div class="h-[100px] block">.</div>
+                <p class="text-[12px] text-gray-700 mt-0.5">VAT Registration No: 00094444</p>
+                <span id="output-ref" class="absolute right-20 text-[16px] text-gray-700 font-semibold">REF: 00</span>
+                <span id="output-kk" class="absolute right-28 top-16 text-[20px] text-emerald-800 font-semibold mt-8 uppercase">KK 6</span>
+                <p class="text-lg font-bold text-gray-800 whitespace-nowrap">Coach No - <span id="output-coach" class="text-black">001-Dek-1</span></p>
+            </div>
+            <div class="absolute mt-[-0px] right-24 text-right"><div class="flex items-center justify-end gap-3"><span class="text-[11px] text-gray-400 font-medium">Page <span id="output-page-number">3</span></span></div></div>
+            <div class="absolute top-[160px] left-24 flex items-center text-gray-900 whitespace-nowrap"><span class="text-gray-700">PNR</span><span class="mr-3">:</span><span id="output-pnr" class="font-bold text-black">23385</span></div>
+            <div class="absolute top-[185px] left-24 space-y-2 text-gray-900 w-[450px]">
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Name of Passenger</span><span class="mr-3">:</span><span id="output-name" class="font-bold text-black uppercase">ALIF</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Mobile No</span><span class="mr-3">:</span><span id="output-mobile" class="text-black">01912318448</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Passport No</span><span class="mr-3">:</span><span id="output-passport" class="text-black"></span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Issue Date</span><span class="mr-3">:</span><span id="output-issue-date-val" class="text-black">23-05-19</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Journey Date</span><span class="mr-3">:</span><span id="output-journey-date-val" class="text-black">04-06-19</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Seat No</span><span class="mr-3">:</span><span id="output-seat" class="font-bold text-black">N18</span></div>
+            </div>
+            <div class="absolute top-[185px] left-[540px] space-y-2 text-gray-900 w-[450px]">
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">From</span><span class="mr-3">:</span><span id="output-from" class="font-bold text-black">Dhaka</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">To</span><span class="mr-3">:</span><span id="output-to" class="font-bold text-black">Barisal</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Reporting Time</span><span class="mr-3">:</span><span id="output-reporting" class="text-black">07:45 AM</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Departure Time</span><span class="mr-3">:</span><span id="output-dep-time" class="font-bold text-black">08:00 AM</span></div>
+                <div class="flex whitespace-nowrap"><span class="w-36 text-gray-700">Departure Place</span><span class="mr-3">:</span><span id="output-dep-place" class="font-bold text-black">Sodor Ghat</span></div>
+            </div>
+            <div class="absolute top-[355px] left-0 right-0 text-center"><div class="inline-block text-sm font-bold text-gray-900 whitespace-nowrap">Ticket Price: <span id="output-price">700</span> Tk (including VAT)</div></div>
+            <div class="absolute top-[380px] left-12 right-0 text-center">
+                <span class="whitespace-nowrap absolute left-12 text-[11px] text-gray-500">Powered by: www.paribahan.com</span>
+                <p class="font-bold text-gray-900 tracking-wide whitespace-nowrap text-[13px]">ঘরে বসে টিকিট কিনতে ভিজিট করুন, পরিবহন ডট কম</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzKCPffL1cirC_4pbcXYYuDzG6t9NDIfWOjINBEp9PEkMPbRsmnjIOOVJ5v9Ik9WwU/exec";
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('input-issue-date').value = today;
+        document.getElementById('input-journey-date').value = today;
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const parts = dateStr.split('-');
+            if (parts.length === 3) return `${parts[2]}-${parts[1]}-${parts[0].slice(-2)}`;
+            return dateStr;
+        }
+
+        document.getElementById('output-issue-date-val').textContent = formatDate(today);
+        document.getElementById('output-journey-date-val').textContent = formatDate(today);
+        document.getElementById('input-issue-date').addEventListener('change', e => {
+            document.getElementById('output-issue-date-val').textContent = formatDate(e.target.value);
+        });
+        document.getElementById('input-journey-date').addEventListener('change', e => {
+            document.getElementById('output-journey-date-val').textContent = formatDate(e.target.value);
+        });
+
+        function convertTo12Hour(time24) {
+            if (!time24) return '';
+            const [hour, minute] = time24.split(':').map(Number);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            let hour12 = hour % 12;
+            if (hour12 === 0) hour12 = 12;
+            return `${hour12.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')} ${ampm}`;
+        }
+
+        document.getElementById('output-reporting').textContent = convertTo12Hour(document.getElementById('input-reporting-time').value);
+        document.getElementById('output-dep-time').textContent = convertTo12Hour(document.getElementById('input-dep-time').value);
+        document.getElementById('input-reporting-time').addEventListener('input', e => {
+            document.getElementById('output-reporting').textContent = convertTo12Hour(e.target.value);
+        });
+        document.getElementById('input-dep-time').addEventListener('input', e => {
+            document.getElementById('output-dep-time').textContent = convertTo12Hour(e.target.value);
+        });
+
+        const bindings = [
+            { input: 'input-name', output: 'output-name' },
+            { input: 'input-mobile', output: 'output-mobile' },
+            { input: 'input-pnr', output: 'output-pnr' },
+            { input: 'input-coach', output: 'output-coach' },
+            { input: 'input-passport', output: 'output-passport' },
+            { input: 'input-kk', output: 'output-kk' },
+            { input: 'input-ref', output: 'output-ref' },
+            { input: 'input-from', output: 'output-from' },
+            { input: 'input-to', output: 'output-to' },
+            { input: 'input-seat', output: 'output-seat' },
+            { input: 'input-dep-place', output: 'output-dep-place' },
+            { input: 'input-price', output: 'output-price' },
+            { input: 'input-page-number', output: 'output-page-number' }
+        ];
+        bindings.forEach(item => {
+            const i = document.getElementById(item.input);
+            const o = document.getElementById(item.output);
+            if(i && o) i.addEventListener('input', e => o.textContent = e.target.value);
+        });
+
+        const toggleCheckbox = document.getElementById('toggle-print-bg');
+        const printableTicket = document.getElementById('printable-ticket');
+        const statusText = document.getElementById('toggle-status');
+        toggleCheckbox.addEventListener('change', () => {
+            if (toggleCheckbox.checked) {
+                printableTicket.classList.add('show-bg-print');
+                statusText.textContent = 'ON';
+                statusText.classList.remove('text-gray-500');
+                statusText.classList.add('text-emerald-600');
+            } else {
+                printableTicket.classList.remove('show-bg-print');
+                statusText.textContent = 'OFF';
+                statusText.classList.add('text-gray-500');
+                statusText.classList.remove('text-emerald-600');
+            }
+        });
+
+        const printButton = document.getElementById('print-button');
+        function handlePrint() {
+            printButton.disabled = true;
+            printButton.innerHTML = '⏳ পাঠানো হচ্ছে...';
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = GOOGLE_SHEET_URL;
+            form.target = 'hiddenFrame';
+            form.style.display = 'none';
+
+            const fields = {
+                name: document.getElementById('input-name').value,
+                mobile: document.getElementById('input-mobile').value,
+                pnr: document.getElementById('input-pnr').value,
+                coach: document.getElementById('input-coach').value,
+                passport: document.getElementById('input-passport').value,
+                kk: document.getElementById('input-kk').value,
+                ref: document.getElementById('input-ref').value,
+                from: document.getElementById('input-from').value,
+                to: document.getElementById('input-to').value,
+                issue_date: document.getElementById('input-issue-date').value,
+                journey_date: document.getElementById('input-journey-date').value,
+                reporting_time: document.getElementById('input-reporting-time').value,
+                departure_time: document.getElementById('input-dep-time').value,
+                seat: document.getElementById('input-seat').value,
+                dep_place: document.getElementById('input-dep-place').value,
+                price: document.getElementById('input-price').value,
+                page_number: document.getElementById('input-page-number').value,
+                print_bg: toggleCheckbox.checked ? 'ON' : 'OFF'
+            };
+
+            for (let key in fields) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            setTimeout(() => {
+                window.print();
+                printButton.disabled = false;
+                printButton.innerHTML = '🖨️ নিখুঁত প্রিন্ট করুন';
+            }, 1000);
+        }
+
+        printButton.addEventListener('click', handlePrint);
+    </script>
+</body>
+</html>
