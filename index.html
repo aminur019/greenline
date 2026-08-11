@@ -27,7 +27,6 @@
         /* ব্যাকগ্রাউন্ড ইমেজ (শুধুমাত্র যখন show-bg-print ক্লাস থাকবে) */
         .printable-ticket.show-bg-print {
             background-image: url('greenlingbgimage.png') !important;
-			
         }
 
         /* কাটিং লাইন */
@@ -123,7 +122,7 @@
             <div class="flex items-center gap-2 no-print">
                 <span class="toggle-label text-gray-700">Print Background:</span>
                 <label class="toggle-switch"><input type="checkbox" id="toggle-print-bg"><span class="slider"></span></label>
-                <span id="toggle-status" class="toggle-label text-gray-500 font-medium">OFF</span>
+                <span id="toggle-status" class="toggle-label text-emerald-600 font-medium">ON</span>
             </div>
             <button id="print-button" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 md:px-8 rounded-lg shadow-md transition duration-200 flex items-center gap-2 text-sm md:text-base whitespace-nowrap">🖨️ Print Ticket</button>
         </div>
@@ -138,9 +137,8 @@
 
     <script>
         function createTicketHTML(index, total) {
-            // ইনলাইন স্টাইলে ইমেজ নেই, শুধু background-size, position, repeat
             let html = `
-            <div class="printable-ticket relative bg-white min-w-[1200px] w-[1200px] h-[500px] ticket-font select-none text-[14px]" style="background-repeat: no-repeat; background-size:  cover; background-position:-170px center;">
+            <div class="printable-ticket relative bg-white min-w-[1200px] w-[1200px] h-[500px] ticket-font select-none text-[14px]" style="background-repeat: no-repeat; background-size: cover; background-position:-170px center;">
                 <div class="absolute top-[0px] left-0 right-0 text-center">
                     <div class="h-[100px] block">.</div>
                     <p class="text-[13px] text-gray-700 mt-0.5">VAT Registration No: 00094444</p>
@@ -172,7 +170,6 @@
                 </div>
             </div>`;
             
-            // শেষ টিকিট ছাড়া কাটিং লাইন
             if (index < total - 1) {
                 html += `<hr class="ticket-cut-line">`;
             }
@@ -202,7 +199,6 @@
             document.querySelectorAll(selector).forEach(el => el.textContent = value);
         }
 
-        // ---------- REF ফিল্ডের বিশেষ কাস্টম লজিক ----------
         function updateRefDisplay() {
             const rawRef = document.getElementById('input-ref').value.trim();
             const displayRef = rawRef ? 'REF: ' + rawRef : '';
@@ -211,7 +207,6 @@
         updateRefDisplay();
         document.getElementById('input-ref').addEventListener('input', updateRefDisplay);
 
-        // বাকি সাধারণ টেক্সট ইনপুট বাইন্ডিং (REF বাদে)
         const bindings = [
             { input: 'input-name', cls: '.output-name' },
             { input: 'input-mobile', cls: '.output-mobile' },
@@ -234,7 +229,6 @@
             }
         });
 
-        // তারিখ ও সময় ইভেন্ট
         document.getElementById('input-issue-date').addEventListener('change', e => updateAll('.output-issue-date', formatDate(e.target.value)));
         document.getElementById('input-journey-date').addEventListener('change', e => updateAll('.output-journey-date', formatDate(e.target.value)));
 
@@ -250,7 +244,6 @@
         document.getElementById('input-reporting-time').addEventListener('input', e => updateAll('.output-reporting', convertTo12Hour(e.target.value)));
         document.getElementById('input-dep-time').addEventListener('input', e => updateAll('.output-dep-time', convertTo12Hour(e.target.value)));
 
-        // টগল ব্যাকগ্রাউন্ড
         const toggleCheckbox = document.getElementById('toggle-print-bg');
         const statusText = document.getElementById('toggle-status');
 
@@ -264,8 +257,9 @@
             });
         }
 
-        // প্রাথমিক অবস্থা: টগল OFF → ব্যাকগ্রাউন্ড ইমেজ লুকানো
-        updateBackgroundTickets(false);
+        // প্রাথমিক অবস্থা: ডিফল্টভাবে ON সেট করা হলো
+        toggleCheckbox.checked = true;
+        updateBackgroundTickets(true);
 
         toggleCheckbox.addEventListener('change', () => {
             const isChecked = toggleCheckbox.checked;
@@ -280,7 +274,6 @@
             }
         });
 
-        // প্রিন্ট বাটন
         const printButton = document.getElementById('print-button');
         function handlePrint() {
             printButton.disabled = true;
@@ -299,7 +292,7 @@
                 coach: document.getElementById('input-coach').value,
                 passport: document.getElementById('input-passport').value,
                 kk: document.getElementById('input-kk').value,
-                ref: document.getElementById('input-ref').value,   // raw value, without prefix
+                ref: document.getElementById('input-ref').value,
                 from: document.getElementById('input-from').value,
                 to: document.getElementById('input-to').value,
                 issue_date: document.getElementById('input-issue-date').value,
