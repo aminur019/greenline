@@ -26,7 +26,8 @@
 
         /* ব্যাকগ্রাউন্ড ইমেজ (শুধুমাত্র যখন show-bg-print ক্লাস থাকবে) */
         .printable-ticket.show-bg-print {
-            background-image: url('greenlinebg(2).png') !important;
+            background-image: url('greenlingbgimage.png') !important;
+			
         }
 
         /* কাটিং লাইন */
@@ -73,7 +74,7 @@
                 background-image: none !important;
             }
             .printable-ticket.show-bg-print {
-                background-image: url('greenlinebg(2).png') !important;
+                background-image: url('greenlingbgimage.png') !important;
                 background-repeat: no-repeat !important;
                 background-size: cover !important;
                 background-position: -200px center !important;
@@ -139,7 +140,7 @@
         function createTicketHTML(index, total) {
             // ইনলাইন স্টাইলে ইমেজ নেই, শুধু background-size, position, repeat
             let html = `
-            <div class="printable-ticket relative bg-white min-w-[1200px] w-[1200px] h-[500px] ticket-font select-none text-[14px]" style="background-repeat: no-repeat; background-size: cover; background-position: -200px center;">
+            <div class="printable-ticket relative bg-white min-w-[1200px] w-[1200px] h-[500px] ticket-font select-none text-[14px]" style="background-repeat: no-repeat; background-size: cover; ">
                 <div class="absolute top-[0px] left-0 right-0 text-center">
                     <div class="h-[100px] block">.</div>
                     <p class="text-[13px] text-gray-700 mt-0.5">VAT Registration No: 00094444</p>
@@ -147,7 +148,7 @@
                     <span class="output-kk absolute right-28 top-16 text-[22px] text-emerald-800 font-semibold mt-8 uppercase"></span>
                     <p class="text-xl font-bold text-gray-800 whitespace-nowrap">Coach No - <span class="output-coach text-black"></span></p>
                 </div>
-                <div class="absolute mt-[-0px] right-24 text-right"><div class="flex items-center justify-end gap-3"><span class="text-[12px] text-gray-400 font-medium">Page <span class="output-page-number"></span></span></div></div>
+                <div class="absolute mt-[10px] right-24 text-right"><div class="flex items-center justify-end gap-3"><span class="text-[12px] text-gray-700 font-medium">Page <span class="output-page-number"></span></span></div></div>
                 <div class="absolute top-[165px] left-24 flex items-center text-gray-900 whitespace-nowrap"><span class="text-gray-700">PNR</span><span class="mr-3">:</span><span class="output-pnr font-bold text-black"></span></div>
                 <div class="absolute top-[190px] left-24 space-y-2 text-gray-900 w-[40]">
                     <div class="flex whitespace-nowrap"><span class="w-40 text-gray-700">Name of Passenger</span><span class="mr-3">:</span><span class="output-name font-bold text-black uppercase"></span></div>
@@ -179,7 +180,7 @@
         }
 
         const container = document.getElementById('ticket-container');
-        const totalTickets = 3;
+        const totalTickets = 1;
         for (let i = 0; i < totalTickets; i++) {
             container.insertAdjacentHTML('beforeend', createTicketHTML(i, totalTickets));
         }
